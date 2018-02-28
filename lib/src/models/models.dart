@@ -143,75 +143,76 @@ class User {
   @JsonField(key: 'guest_bloggers')
   List<String> guestBloggers;
 
-  User(
-  {this.id,
+  User({
+    this.id,
     this.username,
-  this.memoKey,
-  this.jsonMetadata,
-  this.proxy,
-  this.lastOwnerUpdate,
-  this.lastAccountUpdate,
-  this.created,
-  this.mined,
-  this.ownerChallenged,
-  this.activeChallenged,
-  this.lastOwnerProved,
-  this.lastActiveProved,
-  this.recoveryAccount,
-  this.lastAccountRecovery,
-  this.resetAccount,
-  this.commentCount,
-  this.lifetimeVoteCount,
-  this.postCount,
-  this.canVote,
-  this.votingPower,
-  this.lastVoteTime,
-  this.balance,
-  this.savingsBalance,
-  this.sbdBalance,
-  this.sbdSeconds,
-  this.sbdSecondsLastUpdate,
-  this.sbdLastInterestPayment,
-  this.savingsSbdBalance,
-  this.savingsSbdSeconds,
-  this.savingsSbdSecondsLastUpdate,
-  this.savingsSbdLastInterestPayment,
-  this.savingsWithdrawRequests,
-  this.rewardSbdBalance,
-  this.rewardSteemBalance,
-  this.rewardVestingBalance,
-  this.rewardVestingSteem,
-  this.vestingShares,
-  this.delegatedVestingShares,
-  this.receivedVestingShares,
-  this.vestingWithdrawRate,
-  this.nextVestingWithdrawal,
-  this.withdrawn,
-  this.toWithdraw,
-  this.withdrawRoutes,
-  this.curationRewards,
-  this.postingRewards,
-  this.proxiedVsfVotes,
-  this.witnessesVotedFor,
-  this.averageBandwith,
-  this.lifetimeBandwith,
-  this.lastBandwithUpdate,
-  this.averageMarketBandwith,
-  this.lifetimeMarketBandwith,
-  this.lastMarketBandwithUpdate,
-  this.lastPost,
-  this.lastRootPost,
-  this.vestingBalance,
-  this.reputation,
-  this.transferHistory,
-  this.marketHistory,
-  this.postHistory,
-  this.voteHistory,
-  this.otherHistory,
-  this.witnessVotes,
-  this.tagsUsage,
-  this.guestBloggers
+    this.memoKey,
+    this.jsonMetadata,
+    this.proxy,
+    this.lastOwnerUpdate,
+    this.lastAccountUpdate,
+    this.created,
+    this.mined,
+    this.ownerChallenged,
+    this.activeChallenged,
+    this.lastOwnerProved,
+    this.lastActiveProved,
+    this.recoveryAccount,
+    this.lastAccountRecovery,
+    this.resetAccount,
+    this.commentCount,
+    this.lifetimeVoteCount,
+    this.postCount,
+    this.canVote,
+    this.votingPower,
+    this.lastVoteTime,
+    this.balance,
+    this.savingsBalance,
+    this.sbdBalance,
+    this.sbdSeconds,
+    this.sbdSecondsLastUpdate,
+    this.sbdLastInterestPayment,
+    this.savingsSbdBalance,
+    this.savingsSbdSeconds,
+    this.savingsSbdSecondsLastUpdate,
+    this.savingsSbdLastInterestPayment,
+    this.savingsWithdrawRequests,
+    this.rewardSbdBalance,
+    this.rewardSteemBalance,
+    this.rewardVestingBalance,
+    this.rewardVestingSteem,
+    this.vestingShares,
+    this.delegatedVestingShares,
+    this.receivedVestingShares,
+    this.vestingWithdrawRate,
+    this.nextVestingWithdrawal,
+    this.withdrawn,
+    this.toWithdraw,
+    this.withdrawRoutes,
+    this.curationRewards,
+    this.postingRewards,
+    this.proxiedVsfVotes,
+    this.witnessesVotedFor,
+    this.averageBandwith,
+    this.lifetimeBandwith,
+    this.lastBandwithUpdate,
+    this.averageMarketBandwith,
+    this.lifetimeMarketBandwith,
+    this.lastMarketBandwithUpdate,
+    this.lastPost,
+    this.lastRootPost,
+    this.vestingBalance,
+    this.reputation,
+    this.transferHistory,
+    this.marketHistory,
+    this.postHistory,
+    this.voteHistory,
+    this.otherHistory,
+    this.witnessVotes,
+    this.tagsUsage,
+    this.guestBloggers
   });
+
   factory User.fromJson(Map map) => UserMapper.parse(map);
   Map<String, dynamic> toJson() => UserMapper.map(this);
 }
@@ -283,49 +284,239 @@ class Post {
   List<String> beneficiaries;
   @JsonField(key: 'reblog_on')
   DateTime reblogOn;
+  @JsonField(key: 'reblog_by')
+  List<String> reblogBy;
   @JsonField(key: 'entry_id')
   int entryId;
 
-  Post(
-  {this.id,
-  this.author,
-  this.permlink,
-  this.category,
-  this.parentAuthor,
-  this.parentPermlink,
-  this.title,
-  this.body,
-  this.jsonMetadata,
-  this.lastUpdate,
-  this.created,
-  this.active,
-  this.lastPayout,
-  this.depth,
-  this.children,
-  this.netRShares,
-  this.absRShares,
-  this.voteRShares,
-  this.childrenAbsRShares,
-  this.cashoutTime,
-  this.maxCashoutTime,
-  this.totalVoteWeight,
-  this.rewardWeight,
-  this.totalPayoutValue,
-  this.curatorPayoutValue,
-  this.authorRewards,
-  this.netVotes,
-  this.rootComment,
-  this.maxAcceptedPayout,
-  this.percentSteemDollars,
-  this.allowReplies,
-  this.allowVotes,
-  this.allowCurationRewards,
-  this.beneficiaries,
-  this.blog,
-  this.reblogOn,
-  this.entryId
+  Post({
+    this.id,
+    this.author,
+    this.permlink,
+    this.category,
+    this.parentAuthor,
+    this.parentPermlink,
+    this.title,
+    this.body,
+    this.jsonMetadata,
+    this.lastUpdate,
+    this.created,
+    this.active,
+    this.lastPayout,
+    this.depth,
+    this.children,
+    this.netRShares,
+    this.absRShares,
+    this.voteRShares,
+    this.childrenAbsRShares,
+    this.cashoutTime,
+    this.maxCashoutTime,
+    this.totalVoteWeight,
+    this.rewardWeight,
+    this.totalPayoutValue,
+    this.curatorPayoutValue,
+    this.authorRewards,
+    this.netVotes,
+    this.rootComment,
+    this.maxAcceptedPayout,
+    this.percentSteemDollars,
+    this.allowReplies,
+    this.allowVotes,
+    this.allowCurationRewards,
+    this.beneficiaries,
+    this.blog,
+    this.reblogOn,
+    this.reblogBy,
+    this.entryId
   });
 
   factory Post.fromJson(Map map) => PostMapper.parse(map);
   Map<String, dynamic> toJson() => PostMapper.map(this);
+}
+
+@JsonClass()
+class Reply {
+  String id, author, permlink, category, title, body, url, promoted;
+  DateTime created, active;
+  int depth, children;
+  List<Beneficiary> beneficiaries;
+  List<Reply> replies;
+
+  @JsonField(key: 'parent_author')
+  String parentAuthor;
+  @JsonField(key: 'parent_permlink')
+  String parentPermlink;
+  @JsonField(key: 'json_metadata')
+  String jsonMetadata;
+  @JsonField(key: 'last_update')
+  DateTime lastUpdate;
+  @JsonField(key: 'last_payout')
+  DateTime lastPayout;
+  @JsonField(key: 'net_rshares')
+  int netRShares;
+  @JsonField(key: 'abs_rshares')
+  int absRShares;
+  @JsonField(key: 'vote_rshares')
+  int voteRShares;
+  @JsonField(key: 'children_abs_rshares')
+  int childrenAbsRShares;
+  @JsonField(key: 'cashout_time')
+  DateTime cashoutTime;
+  @JsonField(key: 'max_cashout_time')
+  DateTime maxCashoutTime;
+  @JsonField(key: 'total_vote_weight')
+  int totalVoteWeight;
+  @JsonField(key: 'reward_weight')
+  int rewardWeight;
+  @JsonField(key: 'total_payout_value')
+  String totalPayoutValue;
+  @JsonField(key: 'curator_payout_value')
+  String curatorPayoutValue;
+  @JsonField(key: 'author_rewards')
+  int authorRewards;
+  @JsonField(key: 'net_votes')
+  int netVotes;
+  @JsonField(key: 'root_comment')
+  int rootComment;
+  @JsonField(key: 'max_accepted_payout')
+  String maxAcceptedPayout;
+  @JsonField(key: 'percent_steem_dollars')
+  int percentSteemDollars;
+  @JsonField(key: 'allow_replies')
+  bool allowReplies;
+  @JsonField(key: 'allow_votes')
+  bool allowVotes;
+  @JsonField(key: 'allow_curation_rewards')
+  bool allowCurationRewards;
+  @JsonField(key: 'root_title')
+  String rootTitle;
+  @JsonField(key: 'pending_payout_value')
+  String pendingPayoutValue;
+  @JsonField(key: 'total_pending_payout_value')
+  String totalPendingPayoutValue;
+  @JsonField(key: 'active_votes')
+  List<ActiveVote> activeVotes;
+  @JsonField(key: 'author_reputation')
+  String authorReputation;
+  @JsonField(key: 'body_length')
+  int bodyLength;
+  @JsonField(key: 'reblogged_by')
+  List<String> rebloggedBy;
+
+
+
+  Reply({
+    this.id,
+    this.author,
+    this.permlink,
+    this.category,
+    this.parentAuthor,
+    this.parentPermlink,
+    this.title,
+    this.body,
+    this.jsonMetadata,
+    this.lastUpdate,
+    this.created,
+    this.active,
+    this.lastPayout,
+    this.depth,
+    this.children,
+    this.netRShares,
+    this.absRShares,
+    this.voteRShares,
+    this.childrenAbsRShares,
+    this.cashoutTime,
+    this.maxCashoutTime,
+    this.totalVoteWeight,
+    this.rewardWeight,
+    this.totalPayoutValue,
+    this.curatorPayoutValue,
+    this.authorRewards,
+    this.netVotes,
+    this.rootComment,
+    this.maxAcceptedPayout,
+    this.percentSteemDollars,
+    this.allowReplies,
+    this.allowVotes,
+    this.allowCurationRewards,
+    this.beneficiaries,
+    this.url,
+    this.rootTitle,
+    this.pendingPayoutValue,
+    this.totalPendingPayoutValue,
+    this.activeVotes,
+    this.replies,
+    this.authorReputation,
+    this.promoted,
+    this.bodyLength,
+    this.rebloggedBy
+  });
+  factory Reply.fromJson(Map map) => ReplyMapper.parse(map);
+  Map<String, dynamic> toJson() => ReplyMapper.map(this);
+}
+
+@JsonClass()
+class ActiveVote {
+  String voter, rshares, reputation;
+  int weight, percent;
+  DateTime time;
+
+  ActiveVote({this.voter, this.weight, this.rshares, this.percent, this.reputation, this.time});
+  factory ActiveVote.fromJson(Map map) => ActiveVoteMapper.parse(map);
+  Map<String, dynamic> toJson() => ActiveVoteMapper.map(this);
+}
+
+@JsonClass()
+class PostVote {
+  String authorperm;
+  int weight, rshares, percent;
+  DateTime time;
+
+  PostVote({this.authorperm, this.weight, this.rshares, this.percent, this.time});
+  factory PostVote.fromJson(Map map) => PostVoteMapper.parse(map);
+  Map<String, dynamic> toJson() => PostVoteMapper.map(this);
+}
+
+@JsonClass()
+class Tag {
+  String name, trending;
+  int comments;
+
+  @JsonField(key: 'total_payouts')
+  String totalPayouts;
+  @JsonField(key: 'net_votes')
+  int netVotes;
+  @JsonField(key: 'top_posts')
+  int topPosts;
+
+  Tag({
+    this.name,
+    this.totalPayouts,
+    this.netVotes,
+    this.topPosts,
+    this.comments,
+    this.trending
+  });
+  factory Tag.fromJson(Map map) => TagMapper.parse(map);
+  Map<String, dynamic> toJson() => TagMapper.map(this);
+}
+
+/// Relationship between users (follows, followed by)
+@JsonClass()
+class Relationship {
+  String follower, following;
+  List<dynamic> what;
+
+  Relationship({this.follower, this.following, this.what});
+  factory Relationship.fromJson(Map map) => RelationshipMapper.parse(map);
+  Map<String, dynamic> toJson() => RelationshipMapper.map(this);
+}
+
+/// The various actions that can be performed on a relationship on Steem
+abstract class RelationshipAction {
+  /// Follow a user
+  static const String follow = 'follow';
+
+  /// Unfollow a user
+  static const String unfollow = 'unfollow';
 }
