@@ -22,11 +22,11 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
   final String permlink;
   final Requestor requestor;
   String _getRepliesRoot;
-  String _createCommentRoot;
+  String _root;
 
   _SteemCommentsApiPostImpl(this.author, this.permlink, this.requestor) {
     _getRepliesRoot = '/get_content_replies?author=$author&permlink=$permlink';
-    _createCommentRoot = '/sign/comment';
+    _root = '/api/broadcast';
   }
 
   @override
@@ -40,15 +40,36 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
   Future<bool> createComment(String parentAuthor, String parentPermlink,
       String author, String permlink, String title, String body,
   {String jsonMetadata}) {
-
-    Map<String, String> queryParameters = {};
-
-    if (jsonMetadata != null) queryParameters['json_metadata'] = jsonMetadata.toString();
+    var commentOperation =
+        '[["comment", {'
+          '"parent_author": "$parentAuthor",'
+          '"parent_permlink": "$parentPermlink",'
+          '"author": "$author",'
+          '"permlink": "$permlink",'
+          '"title": "$title",'
+          '"body": "$body",'
+          '"json_metadata": "$jsonMetadata.toString()"}]]';
 
     return requestor
-        .request('$_createCommentRoot?parent_author=$parentAuthor'
-        '&parent_permlink=$parentPermlink&author=$author&permlink=$permlink'
-        '&title=$title&body=$body', method: 'POST', body: {}).then((r) {
+        .request(_root,
+        method: 'POST',
+        body: {"operations": commentOperation})
+        .then((r) {
+      return true;
+    });
+  }
+
+  Future<bool> deleteComment(String author, String permlink) {
+    var deleteOperation =
+        '"operations": ['
+          '["delete_comment", {'
+          '"author": "$author",'
+          '"permlink": "$permlink"}]]';
+    return requestor
+        .request(_root,
+    method: 'POST',
+    body: {"operations": deleteOperation})
+        .then((r) {
       return true;
     });
   }
