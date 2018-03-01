@@ -12,7 +12,9 @@ abstract class Requestor {
   Future<SteemResponse> request(String path, {Map<String, String> body, Map<String, String> queryParameters, String method}) {
     var uri = buildUri(path, queryParameters: queryParameters, method: method);
     var req = new http.Request(method ?? 'GET', uri);
-    req.headers['accept'] = 'application/json';
+    req.headers['Authorization'] = me.accessToken;
+    req.headers['Content-Type'] = 'application/json';
+    req.headers['Accept'] = 'application/json';
 
     if (body?.isNotEmpty == true) {
       req.bodyFields = buildBody(body);
