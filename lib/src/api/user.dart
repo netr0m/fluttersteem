@@ -24,6 +24,10 @@ abstract class SteemUsersApi {
   Future<List<Post>> getRecentPosts(String username,
       {int entryId, int limit});
 
+  /// Get the list of posts upvoted by a given user
+  /// https://api.steemjs.com/get_account_votes?voter=USER
+  Future<List<PostVote>> getVotedPosts(String username);
+
   /// Get a list of users matching the query
   /// https://api.steemjs.com/lookup_accounts?lowerBoundName=username&limit=LIMIT
   Future<List<String>> search(String query, {int limit});
