@@ -20,8 +20,8 @@ abstract class SteemVotesApiPost {
   /// A weight of 10000 equals 100%
   ///
   /// https://steemconnect.com/sign/vote?voter=value&author=value&permlink=value&weight=value
-  Future<bool> upvote();
+  Future<bool> upvote(String voter, String author, String permlink, {int weight});
 
   /// Remove an upvote on the post by the currently authenticated user
-  Future<bool> unvote();
+  Future<bool> unvote(String voter, String author, String permlink);
 }
