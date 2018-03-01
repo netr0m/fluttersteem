@@ -15,11 +15,7 @@ abstract class SteemVotesApiPost {
   /// https://api.steemjs.com/get_active_votes?author=USER&permlink=PERM
   Future<List<ActiveVote>> getVoters(String author, String permlink);
 
-  /// Upvote the post by the currently authenticated user
-  ///
-  /// A weight of 10000 equals 100%
-  ///
-  /// https://steemconnect.com/sign/vote?voter=value&author=value&permlink=value&weight=value
+  /// Upvote the post as the currently authenticated user
   Future<bool> upvote(String voter, String author, String permlink, {int weight});
 
   /// Remove an upvote on the post by the currently authenticated user
