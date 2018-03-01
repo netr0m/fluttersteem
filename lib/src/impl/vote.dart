@@ -47,20 +47,16 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
   @override
   Future<bool> upvote(String voter, String author, String permlink,
       {int weight}) {
-    var voteOperation = '[["vote", {'
+    if (weight == null) () => weight = 10000; // 100% as default
+    var voteOperation =
+        '[["vote", {'
         '"voter": "$voter",'
         '"author": "$author",'
         '"permlink": "$permlink",'
         '"weight": "$weight"}]]';
-    Map<String, String> queryParameters = {};
-
-    if (weight != null)
-      queryParameters['weight'] = weight.toString();
-    else
-      queryParameters['weight'] = "10000"; // 100% as default
 
     return requestor
-        .request(_voteRoot, queryParameters: queryParameters,
+        .request(_voteRoot,
         method: 'POST',
         body: {"operations": voteOperation})
         .then((r) {
@@ -70,15 +66,17 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
 
   @override
   Future<bool> unvote(String voter, String author, String permlink) {
-    var unvoteOperation = '[["vote", {'
+    var unvoteOperation =
+        '[["vote", {'
         '"voter": "$voter",'
         '"author": "$author",'
         '"permlink": "$permlink",'
         '"weight": "0"}]]';
 
     return requestor
-        .request(
-        _voteRoot, method: 'POST', body: {"operations": unvoteOperation})
+        .request(_voteRoot,
+        method: 'POST',
+        body: {"operations": unvoteOperation})
         .then((r) {
       return true;
     });
