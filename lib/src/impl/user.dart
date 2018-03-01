@@ -9,7 +9,7 @@ const String _blogRoot = '/get_blog';
 const String _searchRoot = '/lookup_accounts';
 const String _votesRoot = '/get_account_votes';
 const String _feedRoot = '/get_feed';
-String me = 'amigos';
+String me = 'amigos'; // TODO Lol gotta fix this
 
 class SteemUsersApiImpl implements SteemUsersApi {
   _SteemUsersApiSelfImpl _self;
@@ -56,6 +56,15 @@ class SteemUsersApiImpl implements SteemUsersApi {
     queryParameters: queryParameters)
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
+    });
+  }
+
+  @override
+  Future<List<PostVote>> getVotedPosts(String username) {
+    return requestor
+        .request('$_votesRoot?voter=$username')
+        .then((r) {
+      return r.data.map((m) => new PostVote.fromJson(m)).toList();
     });
   }
 
