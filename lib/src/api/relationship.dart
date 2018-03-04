@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../models/models.dart';
 
 /// An abstraction to extract relationship information from Steem
@@ -13,7 +14,7 @@ abstract class SteemRelationshipsApi {
   ///
   /// https://api.steemjs.com/get_following?follower=NAME&startFollowing=NULL&followType=TYPE&limit=LIMIT
   Future<List<Relationship>> getFollowing(String follower, {int limit,
-      String startFollowing, String followType});
+    String startFollowing, String followType});
 
   /// Get the list of users this user is followed by
   ///
