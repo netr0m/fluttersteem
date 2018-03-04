@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../models/models.dart';
 
 /// An abstraction to extract user data from Steem
@@ -21,7 +22,7 @@ abstract class SteemUsersApi {
 
   /// Get the most recent media published by a user
   /// https://api.steemjs.com/get_blog?account=USERNAME&entryId=ENTRYID&limit=LIMIT
-  Future<List<Post>> getRecentPosts(String username,
+  Future<List<Post>> getPosts(String username,
       {int entryId, int limit});
 
   /// Get the list of posts upvoted by a given user
@@ -39,8 +40,8 @@ abstract class SteemUsersApiSelf {
   Future<User> get();
 
   /// Get the most recent media published by the owner of the access token
-  /// https://api.steemjs.com/get_blog?account=USERNAME&entryId=ENTRYID&limit=LIMIT
-  Future<List<Post>> getOwnPosts({String entryId, String limit});
+  /// https://api.steemjs.com/get_blog?account=USERNAME&entry_id=ENTRYID&limit=LIMIT
+  Future<List<Post>> getOwnPosts({int entryId, String limit});
 
   /// Get the list of recent posts upvoted by the owner of the access token
   /// https://api.steemjs.com/get_account_votes?voter=USER
