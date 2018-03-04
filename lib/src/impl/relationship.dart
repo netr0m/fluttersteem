@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../api/relationship.dart';
 import '../models/models.dart';
 import '../requestor.dart';
@@ -15,34 +16,89 @@ class SteemRelationshipsApiImpl implements SteemRelationshipsApi {
   @override
   SteemRelationshipsApiUser toUser(String username) {
     return _users.putIfAbsent(username,
-    () => new _SteemRelationshipsApiUserImpl(requestor, username));
+            () => new _SteemRelationshipsApiUserImpl(requestor, username));
   }
 
   @override
-  Future<List<Relationship>> getFollowing(String follower, int limit, {String startFollowing, String followType}) {
+  Future<List<Relationship>> getFollowing(String follower,
+      {int limit, String startFollowing, String followType}) {
     var req = '$_followingRoot?follower=$follower';
     if (startFollowing == null) startFollowing = "NULL";
     if (followType == null) followType = "blog";
     if (limit == null) limit = 16;
     return requestor
-        .request('$req&startFollowing=$startFollowing&followType=$followType&limit=$limit')
+        .request(
+        '$req&startFollowing=$startFollowing&followType=$followType&limit=$limit')
         .then((r) {
       return r.data.map((m) => new Relationship.fromJson(m)).toList();
     });
   }
 
   @override
-  Future<List<Relationship>> getFollowers(String following, int limit, {String startFollower, String followType}) {
+  Future<List<Relationship>> getFollowers(String following,
+      {int limit, String startFollower, String followType}) {
     var req = '$_followersRoot?following=$following';
     if (startFollower == null) startFollower = "NULL";
     if (followType == null) followType = "blog";
     if (limit == null) limit = 16;
     return requestor
-        .request('$req&startFollower=$startFollower&followType=$followType&limit=$limit')
+        .request(
+        '$req&startFollower=$startFollower&followType=$followType&limit=$limit')
         .then((r) {
       return r.data.map((m) => new Relationship.fromJson(m)).toList();
     });
   }
+}
 
+class _SteemRelationshipsApiUserImpl implements SteemRelationshipsApiUser {
+  String _root;
+  final Requestor requestor;
+  String $me = "amigos";
 
+  // TODO FIX $ME
+
+  _SteemRelationshipsApiUserImpl(this.requestor, String username) {
+    _root = "/api/broadcast";
+  }
+
+  @override
+  Future<bool> modify(String action, String target, String me, {String what}) {
+    if (action == "unfollow")
+      what = "";
+    else if (what == null) what = "blog";
+    // TODO Fix $me
+    var modifyOperation =
+        '[["custom_json", {'
+        'required_auths": [],'
+        '"required_posting_auths": [$me],'
+        '"id": "follow",'
+        '"json": "[\"follow\",{\"follower\":\"$me\",\"following\":\"$target\",\"what\":[\"$what\"]}]"}]]';
+
+    return requestor
+        .request(_root,
+        method: 'POST',
+        body: {"operations": modifyOperation})
+        .then((r) {
+      return true;
+    });
+  }
+
+  @override
+  Future<bool> ignore(String target, String me) {
+    // TODO Fix $me
+    var ignoreOperation =
+        '[["custom_json", {'
+        'required_auths": [],'
+        '"required_posting_auths": [$me],'
+        '"id": "follow",'
+        '"json": "[\"follow\",{\"follower\":\"$me\",\"following\":\"$target\",\"what\":[\"ignore\"]}]"}]]';
+
+    return requestor
+        .request(_root,
+        method: 'POST',
+        body: {"operations": ignoreOperation})
+        .then((r) {
+      return true;
+    });
+  }
 }
