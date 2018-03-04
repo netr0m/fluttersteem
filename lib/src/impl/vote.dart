@@ -23,7 +23,6 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
   final String author;
   final String permlink;
   final Requestor requestor;
-  Map<String, String> queryParameters = {};
   String _votersRoot;
   String _voteRoot;
 
@@ -34,11 +33,10 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
 
   @override
   Future<List<ActiveVote>> getVoters(String author, String permlink) {
-    queryParameters['author'] = author;
-    queryParameters['permlink'] = permlink;
+    var req = '$_votersRoot?author=$author&permlink=$permlink';
 
     return requestor
-        .request(_votersRoot, queryParameters: queryParameters)
+        .request(req)
         .then((r) {
       return r.data.map((m) => new ActiveVote.fromJson(m)).toList();
     });
@@ -47,7 +45,7 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
   @override
   Future<bool> upvote(String voter, String author, String permlink,
       {int weight}) {
-    if (weight == null) () => weight = 10000; // 100% as default
+    if (weight == null) weight = 10000; // 100% as default
     var voteOperation =
         '[["vote", {'
         '"voter": "$voter",'
