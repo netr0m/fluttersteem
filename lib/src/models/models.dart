@@ -1,5 +1,7 @@
 import 'package:owl/annotation/json.dart';
 
+import 'models.json.g.dart';
+
 @JsonClass()
 class AccessTokenResponse {
   @JsonField(key: 'access_token')
@@ -8,10 +10,28 @@ class AccessTokenResponse {
   User user;
 
   AccessTokenResponse({this.accessToken, this.user});
+
   factory AccessTokenResponse.fromJson(Map map) =>
       AccessTokenResponseMapper.parse(map);
+
   Map<String, dynamic> toJson() => AccessTokenResponseMapper.map(this);
 }
+
+/* TODO: Again, Owl codegen doesn't support Map<String,int>. Feel free to PR
+@JsonClass()
+class Authority {
+  @JsonField(key: 'weight_treshold')
+  int weightTreshold;
+  @JsonField(key: 'account_auths')
+  String accountAuths;
+  @JsonField(key: 'key_auths')
+  Set<String, int> keyAuths;
+
+  Authority({this.weightTreshold, this.accountAuths, this.keyAuths});
+  factory Authority.fromJson(Map map) => AuthorityMapper.parse(map);
+  Map<String, dynamic> toJson() => AuthorityMapper.map(this);
+}
+*/
 
 @JsonClass()
 class User {
@@ -19,6 +39,8 @@ class User {
   DateTime created;
   bool mined;
   int withdrawn;
+
+  //Authority owner, active, posting;
 
   @JsonField(key: 'name')
   String username;
@@ -125,27 +147,33 @@ class User {
   @JsonField(key: 'vesting_balance')
   String vestingBalance;
   @JsonField(key: 'reputation')
-  int reputation; // TODO: Fix this, need to handle this data
+  int reputation;
+
+  /* TODO: Owl codegen doesn't support Map (?) - Feel free to implement and PR
   @JsonField(key: 'transfer_history')
-  List<dynamic> transferHistory;
+  Map<int, Object> transferHistory;
   @JsonField(key: 'market_history')
-  List<dynamic> marketHistory;
+  Map<int, Object> marketHistory;
   @JsonField(key: 'post_history')
-  List<dynamic> postHistory;
+  Map<int, Object> postHistory;
   @JsonField(key: 'vote_history')
-  List<dynamic> voteHistory;
+  Map<int, Object> voteHistory;
   @JsonField(key: 'other_history')
-  List<dynamic> otherHistory;
+  Map<int, Object> otherHistory;
   @JsonField(key: 'witness_votes')
-  List<dynamic> witnessVotes;
+  List<String> witnessVotes;
   @JsonField(key: 'tags_usage')
-  List<String> tagsUsage;
+  Map<String, int> tagsUsage;
   @JsonField(key: 'guest_bloggers')
-  List<String> guestBloggers;
+  Map<String, int> guestBloggers;
+  */
 
   User({
     this.id,
     this.username,
+    /*this.owner,
+    this.active,
+    this.posting,*/
     this.memoKey,
     this.jsonMetadata,
     this.proxy,
@@ -203,17 +231,10 @@ class User {
     this.lastRootPost,
     this.vestingBalance,
     this.reputation,
-    this.transferHistory,
-    this.marketHistory,
-    this.postHistory,
-    this.voteHistory,
-    this.otherHistory,
-    this.witnessVotes,
-    this.tagsUsage,
-    this.guestBloggers
   });
 
   factory User.fromJson(Map map) => UserMapper.parse(map);
+
   Map<String, dynamic> toJson() => UserMapper.map(this);
 }
 
@@ -222,7 +243,9 @@ class Followers {
   String follower, following, what;
 
   Followers({this.follower, this.following, this.what});
+
   factory Followers.fromJson(Map map) => FollowersMapper.parse(map);
+
   Map<String, dynamic> toJson() => FollowersMapper.map(this);
 }
 
@@ -331,6 +354,7 @@ class Post {
   });
 
   factory Post.fromJson(Map map) => PostMapper.parse(map);
+
   Map<String, dynamic> toJson() => PostMapper.map(this);
 }
 
@@ -404,7 +428,6 @@ class Reply {
   List<String> rebloggedBy;
 
 
-
   Reply({
     this.id,
     this.author,
@@ -451,7 +474,9 @@ class Reply {
     this.bodyLength,
     this.rebloggedBy
   });
+
   factory Reply.fromJson(Map map) => ReplyMapper.parse(map);
+
   Map<String, dynamic> toJson() => ReplyMapper.map(this);
 }
 
@@ -461,8 +486,11 @@ class ActiveVote {
   int weight, percent;
   DateTime time;
 
-  ActiveVote({this.voter, this.weight, this.rshares, this.percent, this.reputation, this.time});
+  ActiveVote(
+      {this.voter, this.weight, this.rshares, this.percent, this.reputation, this.time});
+
   factory ActiveVote.fromJson(Map map) => ActiveVoteMapper.parse(map);
+
   Map<String, dynamic> toJson() => ActiveVoteMapper.map(this);
 }
 
@@ -472,8 +500,11 @@ class PostVote {
   int weight, rshares, percent;
   DateTime time;
 
-  PostVote({this.authorperm, this.weight, this.rshares, this.percent, this.time});
+  PostVote(
+      {this.authorperm, this.weight, this.rshares, this.percent, this.time});
+
   factory PostVote.fromJson(Map map) => PostVoteMapper.parse(map);
+
   Map<String, dynamic> toJson() => PostVoteMapper.map(this);
 }
 
@@ -497,7 +528,9 @@ class Tag {
     this.comments,
     this.trending
   });
+
   factory Tag.fromJson(Map map) => TagMapper.parse(map);
+
   Map<String, dynamic> toJson() => TagMapper.map(this);
 }
 
@@ -505,10 +538,12 @@ class Tag {
 @JsonClass()
 class Relationship {
   String follower, following;
-  List<dynamic> what;
+  List<String> what;
 
   Relationship({this.follower, this.following, this.what});
+
   factory Relationship.fromJson(Map map) => RelationshipMapper.parse(map);
+
   Map<String, dynamic> toJson() => RelationshipMapper.map(this);
 }
 
@@ -519,4 +554,19 @@ abstract class RelationshipAction {
 
   /// Unfollow a user
   static const String unfollow = 'unfollow';
+}
+
+@JsonClass()
+class Beneficiary {
+  String account;
+  int weight;
+
+  Beneficiary({
+    this.account,
+    this.weight
+  });
+
+  factory Beneficiary.fromJson(Map map) => BeneficiaryMapper.parse(map);
+
+  Map<String, dynamic> toJson() => BeneficiaryMapper.map(this);
 }
