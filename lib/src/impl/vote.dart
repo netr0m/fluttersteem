@@ -36,7 +36,7 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
     var req = '$_votersRoot?author=$author&permlink=$permlink';
 
     return requestor
-        .request(req)
+        .request('sjs', req)
         .then((r) {
       return r.data.map((m) => new ActiveVote.fromJson(m)).toList();
     });
@@ -54,7 +54,7 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
         '"weight": "$weight"}]]';
 
     return requestor
-        .request(_voteRoot,
+        .request('sc', _voteRoot,
         method: 'POST',
         body: {"operations": voteOperation})
         .then((r) {
@@ -72,7 +72,7 @@ class _SteemVotesApiPostImpl implements SteemVotesApiPost {
         '"weight": "0"}]]';
 
     return requestor
-        .request(_voteRoot,
+        .request('sc', _voteRoot,
         method: 'POST',
         body: {"operations": unvoteOperation})
         .then((r) {

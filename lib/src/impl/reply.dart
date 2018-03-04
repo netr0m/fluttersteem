@@ -33,7 +33,7 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
 
   @override
   Future<List<Reply>> getReplies() {
-    return requestor.request(_getRepliesRoot).then((r) {
+    return requestor.request('sjs', _getRepliesRoot).then((r) {
       return r.data.map((m) => new Reply.fromJson(m)).toList();
     });
   }
@@ -53,7 +53,7 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
         '"json_metadata": "$jsonMetadata.toString()"}]]';
 
     return requestor
-        .request(_root,
+        .request('sc', _root,
         method: 'POST',
         body: {"operations": commentOperation})
         .then((r) {
@@ -68,7 +68,7 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
         '"author": "$author",'
         '"permlink": "$permlink"}]]';
     return requestor
-        .request(_root,
+        .request('sc', _root,
         method: 'POST',
         body: {"operations": deleteOperation})
         .then((r) {

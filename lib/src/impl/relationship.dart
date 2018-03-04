@@ -27,7 +27,7 @@ class SteemRelationshipsApiImpl implements SteemRelationshipsApi {
     if (followType == null) followType = "blog";
     if (limit == null) limit = 16;
     return requestor
-        .request(
+        .request('sjs',
         '$req&startFollowing=$startFollowing&followType=$followType&limit=$limit')
         .then((r) {
       return r.data.map((m) => new Relationship.fromJson(m)).toList();
@@ -42,7 +42,7 @@ class SteemRelationshipsApiImpl implements SteemRelationshipsApi {
     if (followType == null) followType = "blog";
     if (limit == null) limit = 16;
     return requestor
-        .request(
+        .request('sjs',
         '$req&startFollower=$startFollower&followType=$followType&limit=$limit')
         .then((r) {
       return r.data.map((m) => new Relationship.fromJson(m)).toList();
@@ -75,7 +75,7 @@ class _SteemRelationshipsApiUserImpl implements SteemRelationshipsApiUser {
         '"json": "[\"follow\",{\"follower\":\"$me\",\"following\":\"$target\",\"what\":[\"$what\"]}]"}]]';
 
     return requestor
-        .request(_root,
+        .request('sc', _root,
         method: 'POST',
         body: {"operations": modifyOperation})
         .then((r) {
@@ -94,7 +94,7 @@ class _SteemRelationshipsApiUserImpl implements SteemRelationshipsApiUser {
         '"json": "[\"follow\",{\"follower\":\"$me\",\"following\":\"$target\",\"what\":[\"ignore\"]}]"}]]';
 
     return requestor
-        .request(_root,
+        .request('sc', _root,
         method: 'POST',
         body: {"operations": ignoreOperation})
         .then((r) {

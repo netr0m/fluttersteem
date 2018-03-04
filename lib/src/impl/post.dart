@@ -14,7 +14,7 @@ class SteemPostsApiImpl implements SteemPostsApi {
   @override
   Future<Post> getPost(String author, String permlink) {
     return requestor
-        .request('$_root?author=$author&permlink=$permlink')
+        .request('sjs', '$_root?author=$author&permlink=$permlink')
         .then((r) => new Post.fromJson(r.data));
   }
 }

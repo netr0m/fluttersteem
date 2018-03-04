@@ -21,7 +21,7 @@ class SteemTagsApiImpl implements SteemTagsApi {
     if (limit == null) req += '&limit=10';
 
     return requestor
-        .request('$req')
+        .request('sjs', '$req')
         .then((r) {
       return r.data.map((m) => new Tag.fromJson(m)).toList();
     });
@@ -30,7 +30,7 @@ class SteemTagsApiImpl implements SteemTagsApi {
   @override
   Future<List<dynamic>> getTagsUsedByAuthor(String author) {
     return requestor
-        .request('$_authorTagsRoot?&author=$author')
+        .request('sjs', '$_authorTagsRoot?&author=$author')
         .then((r) {
       return r.data.map((m) => new Tag.fromJson(m)).toList();
     });

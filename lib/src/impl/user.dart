@@ -25,21 +25,21 @@ class SteemUsersApiImpl implements SteemUsersApi {
   @override
   Future<User> getByUsername(String username) {
     return requestor
-        .request('$_accountsRoot?names=["$username"]')
+        .request('sjs', '$_accountsRoot?names=["$username"]')
         .then((r) => new User.fromJson(r.data));
   }
 
   @override
   Future<User> getSelf() {
     return requestor
-        .request('$_selfRoot')
+        .request('sc', '$_selfRoot')
         .then((r) => new User.fromJson(r.data));
   }
 
   @override
   Future<List<User>> getUsers(List<String> usernames) {
     return requestor
-        .request('$_accountsRoot?names=$usernames')
+        .request('sjs', '$_accountsRoot?names=$usernames')
         .then((r) {
       return r.data.map((m) => new User.fromJson(m)).toList();
     });
@@ -55,7 +55,7 @@ class SteemUsersApiImpl implements SteemUsersApi {
     else if (limit == null) req += '$limit=16';
 
     return requestor
-        .request(req)
+        .request('sjs', req)
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
@@ -64,7 +64,7 @@ class SteemUsersApiImpl implements SteemUsersApi {
   @override
   Future<List<PostVote>> getVotedPosts(String username) {
     return requestor
-        .request('$_votesRoot?voter=$username')
+        .request('sjs', '$_votesRoot?voter=$username')
         .then((r) {
       return r.data.map((m) => new PostVote.fromJson(m)).toList();
     });
@@ -79,7 +79,7 @@ class SteemUsersApiImpl implements SteemUsersApi {
     else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request(req)
+        .request('sjs', req)
         .then((r) {
       return r.data.map((m) => new User.fromJson(m)).toList();
     });
@@ -106,7 +106,7 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
     else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request('$req')
+        .request('sjs', '$req')
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
@@ -115,7 +115,7 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
   // TODO: Fix $me
   Future<List<PostVote>> getVotedPosts() {
     return requestor
-        .request('$_votesRoot?voter=$me')
+        .request('sjs', '$_votesRoot?voter=$me')
         .then((r) {
       return r.data.map((m) => new PostVote.fromJson(m)).toList();
     });
@@ -129,7 +129,7 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
     else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request(req)
+        .request('sjs', req)
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
