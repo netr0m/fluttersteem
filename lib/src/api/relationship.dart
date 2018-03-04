@@ -12,8 +12,8 @@ abstract class SteemRelationshipsApi {
   /// limit - Limit the number of matches returned
   ///
   /// https://api.steemjs.com/get_following?follower=NAME&startFollowing=NULL&followType=TYPE&limit=LIMIT
-  Future<List<Relationship>> getFollowing(String follower, int limit,
-      {String startFollowing, String followType});
+  Future<List<Relationship>> getFollowing(String follower, {int limit,
+      String startFollowing, String followType});
 
   /// Get the list of users this user is followed by
   ///
@@ -23,16 +23,18 @@ abstract class SteemRelationshipsApi {
   /// limit - Limit the number of matches returned
   ///
   /// https://api.steemjs.com/get_followers?following=NAME&startFollower=NULL&followType=TYPE&limit=LIMIT
-  Future<List<Relationship>> getFollowers(String following, int limit,
-      {String startFollower, String followType});
+  Future<List<Relationship>> getFollowers(String following, {int limit,
+    String startFollower, String followType});
 
   SteemRelationshipsApiUser toUser(String username);
 }
 
 abstract class SteemRelationshipsApiUser {
-  /// Modify the relationship between the current user and the target user
+  /// Modify the relationship between the currently authenticated user and the target user
   ///
   /// You will need to include an [action] as a parameter to specify the action you wish to perform.
   /// Valid actions: 'follow', 'unfollow', 'ignore'
-  Future<Relationship> modify(String action);
+  Future<bool> modify(String action, String target, String me, {String what});
+
+  Future<bool> ignore(String target, String me);
 }
