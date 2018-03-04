@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import '../api/reply.dart';
 import '../models/models.dart';
 import '../requestor.dart';
-import 'dart:async';
 
 class SteemCommentsApiImpl implements SteemCommentsApi {
   final Map<String, SteemCommentsApiPost> _posts = {};
@@ -13,7 +14,8 @@ class SteemCommentsApiImpl implements SteemCommentsApi {
   SteemCommentsApiPost forPost(String author, String permlink) {
     Map<String, String> _postData = {"author": author, "permlink": permlink};
     return _posts.putIfAbsent(
-        _postData.toString(), () => new _SteemCommentsApiPostImpl(author, permlink, requestor));
+        _postData.toString(), () =>
+    new _SteemCommentsApiPostImpl(author, permlink, requestor));
   }
 }
 
@@ -39,16 +41,16 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
   @override
   Future<bool> createComment(String parentAuthor, String parentPermlink,
       String author, String permlink, String title, String body,
-  {String jsonMetadata}) {
+      {String jsonMetadata}) {
     var commentOperation =
         '[["comment", {'
-          '"parent_author": "$parentAuthor",'
-          '"parent_permlink": "$parentPermlink",'
-          '"author": "$author",'
-          '"permlink": "$permlink",'
-          '"title": "$title",'
-          '"body": "$body",'
-          '"json_metadata": "$jsonMetadata.toString()"}]]';
+        '"parent_author": "$parentAuthor",'
+        '"parent_permlink": "$parentPermlink",'
+        '"author": "$author",'
+        '"permlink": "$permlink",'
+        '"title": "$title",'
+        '"body": "$body",'
+        '"json_metadata": "$jsonMetadata.toString()"}]]';
 
     return requestor
         .request(_root,
@@ -62,13 +64,13 @@ class _SteemCommentsApiPostImpl implements SteemCommentsApiPost {
   Future<bool> deleteComment(String author, String permlink) {
     var deleteOperation =
         '"operations": ['
-          '["delete_comment", {'
-          '"author": "$author",'
-          '"permlink": "$permlink"}]]';
+        '["delete_comment", {'
+        '"author": "$author",'
+        '"permlink": "$permlink"}]]';
     return requestor
         .request(_root,
-    method: 'POST',
-    body: {"operations": deleteOperation})
+        method: 'POST',
+        body: {"operations": deleteOperation})
         .then((r) {
       return true;
     });
