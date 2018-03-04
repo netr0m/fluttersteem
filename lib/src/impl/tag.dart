@@ -1,7 +1,9 @@
+import 'dart:async';
+
+import 'package:fluttersteem/src/models/models.dart';
+
 import '../api/tag.dart';
 import '../requestor.dart';
-import 'dart:async';
-import 'package:fluttersteem/src/models/models.dart';
 
 class SteemTagsApiImpl implements SteemTagsApi {
   static const String _trendingRoot = '/get_trending_tags';
@@ -13,13 +15,13 @@ class SteemTagsApiImpl implements SteemTagsApi {
 
   @override
   Future<List<Tag>> getTrendingTags({int limit}) {
-    Map<String, String> queryParameters = {};
+    var req = '$_trendingRoot?';
 
-    if (limit != null) queryParameters['limit'] = limit.toString();
-    if (limit == null) queryParameters['limit'] = _limit.toString();
+    if (limit != null) req += '&limit=$limit';
+    if (limit == null) req += '&limit=10';
 
     return requestor
-        .request('$_trendingRoot?', queryParameters: queryParameters)
+        .request('$req')
         .then((r) {
       return r.data.map((m) => new Tag.fromJson(m)).toList();
     });
@@ -28,7 +30,7 @@ class SteemTagsApiImpl implements SteemTagsApi {
   @override
   Future<List<dynamic>> getTagsUsedByAuthor(String author) {
     return requestor
-        .request('$_authorTagsRoot')
+        .request('$_authorTagsRoot?&author=$author')
         .then((r) {
       return r.data.map((m) => new Tag.fromJson(m)).toList();
     });
