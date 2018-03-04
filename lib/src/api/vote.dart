@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../models/models.dart';
 
 /// An abstraction to extract vote information from Steem
@@ -16,7 +17,8 @@ abstract class SteemVotesApiPost {
   Future<List<ActiveVote>> getVoters(String author, String permlink);
 
   /// Upvote the post as the currently authenticated user
-  Future<bool> upvote(String voter, String author, String permlink, {int weight});
+  Future<bool> upvote(String voter, String author, String permlink,
+      {int weight});
 
   /// Remove an upvote on the post by the currently authenticated user
   Future<bool> unvote(String voter, String author, String permlink);
