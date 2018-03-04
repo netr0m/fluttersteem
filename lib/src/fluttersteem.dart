@@ -84,7 +84,7 @@ class _RequestorImpl extends Requestor {
   @override
   Uri buildUri(String apiSource, String path,
       {Map<String, String> queryParameters, String method}) {
-    var _root = "";
+    var _root;
     Map<String, String> q =
     method == 'POST' ? {} : {'Authorization': accessToken}
       ..addAll(queryParameters ?? {});
