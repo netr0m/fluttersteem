@@ -34,7 +34,8 @@ abstract class SteemRelationshipsApiUser {
   /// Modify the relationship between the currently authenticated user and the target user
   ///
   /// You will need to include an [action] as a parameter to specify the action you wish to perform.
-  /// Valid actions: 'follow', 'unfollow', 'ignore'
+  /// Valid actions: 'follow', 'unfollow'
+  /// `what` is set to 'blog' by default, unless a value is provided
   Future<bool> modify(String action, String target, String me, {String what});
 
   Future<bool> ignore(String target, String me);
