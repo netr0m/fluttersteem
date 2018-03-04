@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../models/models.dart';
 
 /// An abstraction to extract post information from Steem
