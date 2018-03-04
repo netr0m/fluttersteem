@@ -7,15 +7,15 @@ import 'package:http/src/response.dart' as http;
 import 'models/impl_models.dart';
 
 abstract class Requestor {
-  Uri buildUri(String path,
+  Uri buildUri(String apiSrc, String path,
       {Map<String, String> queryParameters, String method});
 
   Map<String, String> buildBody(Map<String, String> body);
 
-  Future<SteemResponse> request(String path, {Map<String, String> body, Map<
+  Future<SteemResponse> request(String apiSrc, String path, {Map<String, String> body, Map<
       String,
       String> queryParameters, String method}) {
-    var uri = buildUri(path, queryParameters: queryParameters, method: method);
+    var uri = buildUri(apiSrc, path, queryParameters: queryParameters, method: method);
     var req = new http.Request(method ?? 'GET', uri);
     req.headers['Content-Type'] = 'application/json';
     req.headers['Accept'] = 'application/json';
