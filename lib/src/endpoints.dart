@@ -9,3 +9,9 @@ final Uri tokenEndpoint = Uri.parse(
 /// The URL to access to revoke an authorization token for an application
 final Uri revocationEndpoint = Uri.parse(
     'https://v2.steemconnect.com/api/oauth2/token/revoke');
+
+/// The URL to access in order to make API calls to the SteemConnect API.
+final Uri scRoot = Uri.parse('https://v2.steemconnect.com/api');
+
+/// The URL to access in order to make API calls to the SteemJS API.
+final Uri sjsRoot = Uri.parse('https://api.steemjs.com');
