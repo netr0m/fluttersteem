@@ -55,9 +55,6 @@ class SteemApiAuth {
 }
 
 class _RequestorImpl extends Requestor {
-  static final Uri _steemConnectRoot = Uri.parse(
-      'https://v2.steemconnect.com/api');
-  static final Uri _steemjsRoot = Uri.parse('https://api.steemjs.com');
   final String accessToken;
   final http.BaseClient client;
 
@@ -85,13 +82,16 @@ class _RequestorImpl extends Requestor {
   }
 
   @override
-  Uri buildUri(String path,
+  Uri buildUri(String apiSource, String path,
       {Map<String, String> queryParameters, String method}) {
+    var _root = "";
     Map<String, String> q =
     method == 'POST' ? {} : {'Authorization': accessToken}
       ..addAll(queryParameters ?? {});
-    if (q.isEmpty) return _steemjsRoot.replace(path: path);
-    return _steemjsRoot.replace(path: path, queryParameters: q);
+    if (apiSource == 'sc') _root = scRoot;
+    else if (apiSource == 'sjs') _root = sjsRoot;
+    if (q.isEmpty) return _root.replace(path: path);
+    return _root.replace(path: path, queryParameters: q);
   }
 
   @override
