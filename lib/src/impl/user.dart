@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import '../api/user.dart';
 import '../models/models.dart';
 import '../requestor.dart';
-import 'dart:async';
 
 const String _accountsRoot = '/get_accounts';
 const String _selfRoot = '/api/me';
@@ -14,13 +15,13 @@ String me = 'amigos'; // TODO Lol gotta fix this
 class SteemUsersApiImpl implements SteemUsersApi {
   _SteemUsersApiSelfImpl _self;
   final Requestor requestor;
-  
+
   SteemUsersApiImpl(this.requestor);
-  
+
   @override
   SteemUsersApiSelf get self =>
       _self ??= new _SteemUsersApiSelfImpl(this, requestor);
-  
+
   @override
   Future<User> getByUsername(String username) {
     return requestor
@@ -45,15 +46,16 @@ class SteemUsersApiImpl implements SteemUsersApi {
   }
 
   @override
-  Future<List<Post>> getRecentPosts(String username, {int entryId, int limit}) {
-    Map<String, String> queryParameters = {};
+  Future<List<Post>> getPosts(String username, {int entryId, int limit}) {
+    var req = '$_blogRoot?account=$username';
 
-    if (entryId != null) queryParameters['entryId'] = entryId.toString();
-    if (limit != null) queryParameters['limit'] = limit.toString();
+    if (entryId != null) req += '&entry_id=$entryId';
+    if (limit != null)
+      req += '$limit=$limit';
+    else if (limit == null) req += '$limit=16';
 
     return requestor
-        .request('$_blogRoot?account=$username',
-    queryParameters: queryParameters)
+        .request(req)
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
@@ -70,12 +72,14 @@ class SteemUsersApiImpl implements SteemUsersApi {
 
   @override
   Future<List<String>> search(String query, {int limit}) {
-    Map<String, String> queryParameters = {};
+    var req = '$_searchRoot/?lowerBoundName=$query';
 
-    if (limit != null) queryParameters['limit'] = limit.toString();
+    if (limit != null)
+      req += '&limit=$limit';
+    else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request('$_searchRoot/?lowerBoundName=$query', queryParameters: queryParameters)
+        .request(req)
         .then((r) {
       return r.data.map((m) => new User.fromJson(m)).toList();
     });
@@ -93,15 +97,16 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
 
   // TODO: Fix $me
   @override
-  Future<List<Post>> getOwnPosts({String entryId, String limit}) {
-    Map<String, String> queryParameters = {};
-
-    if (entryId != null) queryParameters['entryId'] = entryId.toString();
-    if (limit != null) queryParameters['limit'] = limit.toString();
+  Future<List<Post>> getOwnPosts({int entryId, String limit}) {
+    var req = '$_blogRoot?account=$me';
+    String _entryId = entryId.toString();
+    if (entryId != null) req += '&entry_id=$_entryId';
+    if (limit != null)
+      req += '&limit=$limit';
+    else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request('$_blogRoot?account=$me',
-    queryParameters: queryParameters)
+        .request('$req')
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
@@ -109,22 +114,22 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
 
   // TODO: Fix $me
   Future<List<PostVote>> getVotedPosts() {
-  return requestor
-      .request('$_votesRoot?voter=$me')
-      .then((r) {
-    return r.data.map((m) => new PostVote.fromJson(m)).toList();
-  });
+    return requestor
+        .request('$_votesRoot?voter=$me')
+        .then((r) {
+      return r.data.map((m) => new PostVote.fromJson(m)).toList();
+    });
   }
 
-  // TODO: Fix $me
   Future<List<Post>> getFeed(String account, {int limit}) {
-    Map<String, String> queryParameters = {};
+    var req = '$_feedRoot?account=$account';
 
-    if (limit != null) queryParameters['limit'] = limit.toString();
+    if (limit != null)
+      req += '&limit=$limit';
+    else if (limit == null) req += '&limit=16';
 
     return requestor
-        .request('$_feedRoot?account=$me',
-    queryParameters: queryParameters)
+        .request(req)
         .then((r) {
       return r.data.map((m) => new Post.fromJson(m)).toList();
     });
