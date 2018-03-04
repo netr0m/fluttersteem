@@ -1,5 +1,7 @@
 import 'package:owl/annotation/json.dart';
 
+import 'impl_models.json.g.dart';
+
 @JsonClass()
 class SteemResponse {
   SteemException meta;
@@ -9,8 +11,10 @@ class SteemResponse {
   dynamic data;
 
   SteemResponse({this.meta, this.pagination, this.data: const {}});
+
   factory SteemResponse.fromJson(Map map) =>
       SteemResponseMapper.parse(map);
+
   Map<String, dynamic> toJson() => SteemResponseMapper.map(this);
 }
 
@@ -22,8 +26,10 @@ class SteemException implements Exception {
   String errorDescription;
 
   SteemException({this.error, this.errorDescription});
+
   factory SteemException.fromJson(Map map) =>
       SteemExceptionMapper.parse(map);
+
   Map<String, dynamic> toJson() => SteemExceptionMapper.map(this);
 
   @override
@@ -38,8 +44,10 @@ class SteemResponsePagination {
   String entryId;
 
   SteemResponsePagination({this.entryId});
+
   factory SteemResponsePagination.fromJson(Map map) =>
       SteemResponsePaginationMapper.parse(map);
+
   Map<String, dynamic> toJson() => SteemResponsePaginationMapper.map(this);
 }
 
@@ -51,7 +59,9 @@ class SteemAuthException implements Exception {
   String errorDescription;
 
   SteemAuthException({this.error, this.errorDescription});
+
   factory SteemAuthException.fromJson(Map map) =>
       SteemAuthExceptionMapper.parse(map);
+
   Map<String, dynamic> toJson() => SteemAuthExceptionMapper.map(this);
 }
