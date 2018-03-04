@@ -7,10 +7,8 @@ A Flutter/Dart Steem client library. This library includes support for authentic
 * [Installation and Usage](#installation-and-usage)
 * [Authentication](#authentication)
     * [Via Access Token](#via-access-token)
-    * [`InstagramApiAuth`](#instagramapiauth)
+    * [`SteemApiAuth`](#isteemapiauth)
     * [Implicit Auth](#implicit-auth)
-    * [Explicit Auth](#explicit-auth)
-* [Constants](#constants)
 
 # Authentication
 ## Via Access Token
@@ -54,3 +52,6 @@ After you have obtained an access token, use it to receive a `SteemClient`.
 # Endpoints
 The `SteemClient` contains several getters that correspond to endpoints. Each is an abstraction over
 a specific Steem API.
+
+
+*This client library is written based on the code of [instagram_dart](https://github.com/thosakwe/instagram_dart)*
