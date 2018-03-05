@@ -53,9 +53,6 @@ class SteemRelationshipsApiImpl implements SteemRelationshipsApi {
 class _SteemRelationshipsApiUserImpl implements SteemRelationshipsApiUser {
   String _root;
   final Requestor requestor;
-  String $me = "amigos";
-
-  // TODO FIX $ME
 
   _SteemRelationshipsApiUserImpl(this.requestor, String username) {
     _root = "/api/broadcast";
@@ -66,7 +63,6 @@ class _SteemRelationshipsApiUserImpl implements SteemRelationshipsApiUser {
     if (action == "unfollow")
       what = "";
     else if (what == null) what = "blog";
-    // TODO Fix $me
     var modifyOperation =
         '[["custom_json", {'
         'required_auths": [],'
