@@ -29,16 +29,15 @@ included as `SteemApiScope` constants for convenience.
 var auth = new SteemApiAuth('<client-id>', '<client-secret>',
   redirectUri: Uri.parse('<redirect-uri>'),
   scopes: [
-    SteemApiScope.basic,
-    SteemApiScope.publicContent,
+    SteemApiScope.login,
+    SteemApiScope.vote,
     // ...
   ]
 );
 ```
 
 ## Implicit Auth
-Applications with no server-side component can implement
-[implicit auth](https://www.instagram.com/developer/authentication/).
+Applications with no server-side component can implement implicit auth.
 
 To get a redirect URI:
 
@@ -53,5 +52,5 @@ After you have obtained an access token, use it to receive a `SteemClient`.
 The `SteemClient` contains several getters that correspond to endpoints. Each is an abstraction over
 a specific Steem API.
 
-
+# Credits
 *This client library is written based on the code of [instagram_dart](https://github.com/thosakwe/instagram_dart)*

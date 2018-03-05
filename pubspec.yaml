@@ -1,6 +1,6 @@
 name: fluttersteem
 description: Unofficial Steem client library for Dart and Flutter
-version: 0.0.2
+version: 0.0.4
 author: steem/@amigos <mkaa22@gmail.com>
 homepage: https://github.com/mortea15/fluttersteem
 
