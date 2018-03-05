@@ -97,8 +97,8 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
 
   // TODO: Fix $me
   @override
-  Future<List<Post>> getOwnPosts({int entryId, String limit}) {
-    var req = '$_blogRoot?account=$me';
+  Future<List<Post>> getOwnPosts(String username, {int entryId, String limit}) {
+    var req = '$_blogRoot?account=$username';
     String _entryId = entryId.toString();
     if (entryId != null) req += '&entry_id=$_entryId';
     if (limit != null)
@@ -113,9 +113,9 @@ class _SteemUsersApiSelfImpl implements SteemUsersApiSelf {
   }
 
   // TODO: Fix $me
-  Future<List<PostVote>> getVotedPosts() {
+  Future<List<PostVote>> getVotedPosts(String username) {
     return requestor
-        .request('sjs', '$_votesRoot?voter=$me')
+        .request('sjs', '$_votesRoot?voter=$username')
         .then((r) {
       return r.data.map((m) => new PostVote.fromJson(m)).toList();
     });
