@@ -41,11 +41,11 @@ abstract class SteemUsersApiSelf {
 
   /// Get the most recent media published by the owner of the access token
   /// https://api.steemjs.com/get_blog?account=USERNAME&entry_id=ENTRYID&limit=LIMIT
-  Future<List<Post>> getOwnPosts({int entryId, String limit});
+  Future<List<Post>> getOwnPosts(String username, {int entryId, String limit});
 
   /// Get the list of recent posts upvoted by the owner of the access token
   /// https://api.steemjs.com/get_account_votes?voter=USER
-  Future<List<PostVote>> getVotedPosts();
+  Future<List<PostVote>> getVotedPosts(String username);
 
   /// Get a list of recent posts published by the users followed by the authenticated user
   /// https://api.steemjs.com/get_feed?account=ACCOUNT&limit=16
